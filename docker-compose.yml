@@ -1,0 +1,31 @@
+version: '3'
+
+networks:
+  covid_network:
+    driver: bridge
+
+services:
+  covid-db-postgres:
+    container_name: covid-db-postgres
+    image: postgres
+    environment:
+      POSTGRES_DB: covidb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      PGDATA: /data/postgres
+    volumes:
+      - ./postgres-covidb:/data/postgres
+    networks:
+      - covid_network
+
+  covid-app:
+    container_name: covid_app
+    image: yinontz/covid:0.0.1
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=covid-db-postgres
+    depends_on:
+      - covid-db-postgres
+    networks:
+      - covid_network
