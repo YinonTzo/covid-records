@@ -1,5 +1,6 @@
 package com.example.covid.service;
 
+import com.example.covid.DTO.UserDTO;
 import com.example.covid.entity.User;
 
 import java.time.LocalDate;
@@ -7,13 +8,13 @@ import java.util.List;
 
 public interface UserService {
 
-    User addUser(User user);
+    User addUser(UserDTO userDTO);
 
-    User getUserById(Long id);
+    UserDTO getUserById(Long id);
 
-    List<User> getUsers();
+    List<UserDTO> getUsers();
 
-    List<User> getUsersBetweenDates(LocalDate startDate, LocalDate endDate);
+    List<UserDTO> getUsersBetweenDates(LocalDate startDate, LocalDate endDate);
 
-    List<User> getUsersByCity(String city);
+    List<UserDTO> getUsersByCity(String city);
 }

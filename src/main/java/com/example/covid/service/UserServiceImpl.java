@@ -1,7 +1,9 @@
 package com.example.covid.service;
 
+import com.example.covid.DTO.UserDTO;
 import com.example.covid.entity.User;
 import com.example.covid.exception.UserCustomException;
+import com.example.covid.mappers.UserMapper;
 import com.example.covid.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,41 +22,59 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public User addUser(User user) {
+    public User addUser(UserDTO userDTO) {
+        User user = UserMapper.INSTANCE.userDtoToUser(userDTO);
+
         User saved = userRepository.save(user);
         log.info("Register new user: {}", saved);
         return saved;
     }
 
     @Override
-    public User getUserById(Long id) {
+    public UserDTO getUserById(Long id) {
         User user = userRepository.findById(id).orElseThrow(
                 () -> new UserCustomException(
                         String.format(THERE_IS_NO_USER_ID, id),
                         HttpStatus.NOT_FOUND));
+
+        UserDTO userDTO = UserMapper.INSTANCE.userToUserDto(user);
+
         log.info("Get user {}.", user);
-        return user;
+
+        return userDTO;
     }
 
     @Override
-    public List<User> getUsers() {
+    public List<UserDTO> getUsers() {
         List<User> users = userRepository.findAll();
+
+        List<UserDTO> userDTOS = UserMapper.INSTANCE.userToUserDto(users);
+
         log.info("Get all users {}.", users);
-        return users;
+
+        return userDTOS;
     }
 
     @Override
-    public List<User> getUsersBetweenDates(LocalDate startDate, LocalDate endDate) {
+    public List<UserDTO> getUsersBetweenDates(LocalDate startDate, LocalDate endDate) {
         List<User> users = userRepository.findByBirthDateBetween(startDate, endDate);
+
+        List<UserDTO> userDTOS = UserMapper.INSTANCE.userToUserDto(users);
+
         log.info("Get all users between {} to {}.", startDate, endDate);
         log.info("There are {} users. The users: {}.", users.size(), users);
-        return users;
+
+        return userDTOS;
     }
 
     @Override
-    public List<User> getUsersByCity(String city) {
+    public List<UserDTO> getUsersByCity(String city) {
         List<User> users = userRepository.findUserByCity(city);
+
+        List<UserDTO> userDTOS = UserMapper.INSTANCE.userToUserDto(users);
+
         log.info("Get all users in city name {}. The users: {}.", city, users);
-        return users;
+
+        return userDTOS;
     }
 }
