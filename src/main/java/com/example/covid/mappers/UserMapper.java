@@ -12,7 +12,6 @@ import java.util.List;
 public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
-    @Mapping(target = "id", ignore = true)
     User userDtoToUser(UserDTO userDTO);
 
     UserDTO userToUserDto(User user);
