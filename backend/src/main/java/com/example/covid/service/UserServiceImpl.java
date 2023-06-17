@@ -1,9 +1,11 @@
 package com.example.covid.service;
 
 import com.example.covid.DTO.UserDTO;
+import com.example.covid.entity.PreviousCondition;
 import com.example.covid.entity.User;
 import com.example.covid.exception.UserCustomException;
 import com.example.covid.mappers.UserMapper;
+import com.example.covid.repository.PreviousConditionRepository;
 import com.example.covid.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,11 +22,13 @@ public class UserServiceImpl implements UserService {
 
     public static final String THERE_IS_NO_USER_ID = "There is no user id %s.";
     private final UserRepository userRepository;
+    private final PreviousConditionRepository previousConditionRepository;
 
     @Override
     public User addUser(UserDTO userDTO) {
         User user = UserMapper.INSTANCE.userDtoToUser(userDTO);
-
+        List<PreviousCondition> previousConditions =
+                previousConditionRepository.saveAll(user.getPreviousConditions());
         User saved = userRepository.save(user);
         log.info("Register new user: {}", saved);
         return saved;

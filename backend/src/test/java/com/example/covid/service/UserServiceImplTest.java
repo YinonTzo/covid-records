@@ -3,6 +3,7 @@ package com.example.covid.service;
 import com.example.covid.DTO.UserDTO;
 import com.example.covid.entity.User;
 import com.example.covid.exception.UserCustomException;
+import com.example.covid.repository.PreviousConditionRepository;
 import com.example.covid.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,9 @@ class UserServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private PreviousConditionRepository previousConditionRepository;
 
     @InjectMocks
     private UserServiceImpl userService;

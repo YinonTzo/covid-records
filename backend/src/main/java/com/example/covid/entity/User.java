@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -51,6 +52,6 @@ public class User {
     @Column(name = "ZIP_CODE")
     private String zipCode;
 
-    @Column(name = "PREVIOUS_CONDITIONS")
-    private List<String> previousConditions;
+    @OneToMany
+    private List<PreviousCondition> previousConditions = new ArrayList<>();
 }

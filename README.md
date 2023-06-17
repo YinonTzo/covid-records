@@ -30,7 +30,11 @@ From Postman, send a **POST** request to the user service:
         "address": "Kiryat Yovel",</br>
         "cellularPhone": "052-7777777",</br>
         "infected": false,</br>
-        "previousConditions": "j6pd"</br>
+        "previousConditions": [</br>
+        { "previousCondition": "Diabetes" },</br>
+        { "previousCondition": "J6pd" },</br>
+        { "previousCondition": "Allergies" }</br>
+    ]</br>
     }
 </code>
 </ul>

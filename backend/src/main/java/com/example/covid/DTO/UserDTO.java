@@ -1,11 +1,14 @@
 package com.example.covid.DTO;
 
+import com.example.covid.entity.PreviousCondition;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -31,5 +34,5 @@ public class UserDTO {
 
     private boolean infected = false;
 
-    private String previousConditions;
+    private List<PreviousCondition> previousConditions = new ArrayList<>();
 }
