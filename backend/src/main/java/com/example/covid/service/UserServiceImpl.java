@@ -73,8 +73,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> getUsersByCity(String city) {
-        List<User> users = userRepository.findUserByCity(city);
-
+        List<User> users = userRepository.findByCityContainingIgnoreCase(city);
         List<UserDTO> userDTOS = UserMapper.INSTANCE.userToUserDto(users);
 
         log.info("Get all users in city name {}. The users: {}.", city, users);
