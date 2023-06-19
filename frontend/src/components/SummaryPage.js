@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
 
 import { useAxiosGet, useFetch } from '../hooks/useFetch';
 import { buildCities } from '../helpers/utilities';
@@ -39,6 +41,25 @@ export const SummaryPage = () => {
         else if(selectedCity.label !== '') handleGetCity(`user/byCity/${selectedCity.label.trim()}`);
 
     }
+
+    const exportToCSV = (csvData, fileName) => {
+        const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+        const fileExtension = '.xlsx';
+
+        const dataForExcel = csvData.map(({ id, ...item }) => ({
+            ...item,
+            previousConditions: item.previousConditions.map(
+                condition => condition.previousCondition
+                ).join(", ")
+        }));
+    
+        const ws = XLSX.utils.json_to_sheet(dataForExcel);
+        const wb = { Sheets: { 'data': ws }, SheetNames: ['data'] };
+        const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        const data = new Blob([excelBuffer], {type: fileType});
+        FileSaver.saveAs(data, fileName + fileExtension);
+    }
+    
 
     useEffect(() => {
         if(!loadingDates) setData(dataDates);
@@ -119,6 +140,16 @@ export const SummaryPage = () => {
                                 </TableBody>
                             </Table>
                         </TableContainer>
+                        {
+                            data.length > 0 && (
+                                <div className='row'>
+                                    <div className='col-12 g-3 text-center'>
+                                        <button className='btn btn-warning' onClick={(e) => exportToCSV(data,"data")}>Export</button>
+                                    </div>
+                                </div>
+                                
+                            )
+                        }
                     </div>
                 </div>
             </div>

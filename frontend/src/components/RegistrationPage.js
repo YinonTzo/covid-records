@@ -54,6 +54,13 @@ export const RegistrationPage = () => {
     const { isLoading: loadingPost, data: dataPost, error: errorPost } = response;
 
     useEffect(() => {
+        return () => {
+            setNewUser(null);
+            refCities.current = true;
+        }
+    }, []);
+
+    useEffect(() => {
         if(!isLoading && data !== null)
             setOptionsCity(buildCities(data));
     }, [data, isLoading]);
@@ -65,7 +72,7 @@ export const RegistrationPage = () => {
                 lastName: lastName.trim(),
                 birthDate: birthDate,
                 address: address.trim(),
-                city: selectedCity.label.trim(),
+                city: selectedCity?.label,
                 // zip_code: zip_code,
                 landline: landline.trim(),
                 cellularPhone: cellularPhone.trim(),
@@ -96,6 +103,11 @@ export const RegistrationPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        setNewUser({
+            ...newUser,
+            city: selectedCity?.label?.trim()
+        })
 
         if(validateValues())
             handleSubmitPost();
@@ -246,6 +258,7 @@ export const RegistrationPage = () => {
                         </div>
                         <div className="col-md-4">
                             <FormSelect selected={selectedCity} setSelected={setSelectedCity} options={optionsCity} multi={false} title={'City'} />
+                            {errorCity && <div className='text-danger errormessage'>{errorCity}</div>}
                         </div>
                         <div className="col-md-4">
                             <label className="form-label">Zip code</label>
