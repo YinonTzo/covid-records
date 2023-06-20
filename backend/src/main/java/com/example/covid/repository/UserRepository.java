@@ -9,9 +9,7 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    List<User> findByBirthDateBetween(LocalDate startDate, LocalDate endDate);
-
-    List<User> findUserByCity(String city);
+    List<User> findByDateOfBirthBetween(LocalDate startDate, LocalDate endDate);
 
     List<User> findByCityContainingIgnoreCase(String city);
 }

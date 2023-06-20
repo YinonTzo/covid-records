@@ -32,7 +32,7 @@ public class User {
 
     @Column(name = "BIRTH_DATE")
     @JsonFormat(pattern="yyyy-MM-dd")
-    private LocalDate birthDate;
+    private LocalDate dateOfBirth;
 
     @Column(name = "ADDRESS")
     private String address;

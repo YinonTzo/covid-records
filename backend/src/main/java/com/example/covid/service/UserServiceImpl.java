@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> getUsersBetweenDates(LocalDate startDate, LocalDate endDate) {
-        List<User> users = userRepository.findByBirthDateBetween(startDate, endDate);
+        List<User> users = userRepository.findByDateOfBirthBetween(startDate, endDate);
 
         List<UserDTO> userDTOS = UserMapper.INSTANCE.userToUserDto(users);
 

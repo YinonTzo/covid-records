@@ -22,7 +22,7 @@ public class UserDTO {
 
     private String lastName;
 
-    private LocalDate birthDate;
+    private LocalDate dateOfBirth;
 
     private String address;
 
@@ -32,7 +32,9 @@ public class UserDTO {
 
     private String cellularPhone;
 
-    private boolean infected = false;
+    private boolean infected;
+
+    private String zipCode;
 
     private List<PreviousCondition> previousConditions = new ArrayList<>();
 }

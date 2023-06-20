@@ -21,24 +21,24 @@ From Postman, send a **POST** request to the user service:
 - and the body request (as json):
 
     ```json
-    
     {
-        "firstName": "David",
-        "lastName": "Maman",
-        "birthDate": "1910-03-10",
-        "city": "Jerusalem",
-        "address": "Kiryat Yovel",
-        "cellularPhone": "052-7777777",
-        "infected": false,
-        "previousConditions": [
-            { "previousCondition": "Diabetes" },
-            { "previousCondition": "J6pd" },
-            { "previousCondition": "Allergies" }
-        ]
+      "firstName": "David",
+      "lastName": "Maman",
+      "dateOfBirth": "1910-03-10",
+      "city": "Jerusalem",
+      "address": "Kiryat Yovel",
+      "cellularPhone": "052-7777777",
+      "landline": "02-555555",
+      "infected": false,
+      "zipCode": "945175",
+      "previousConditions": [
+        { "previousCondition": "a" },
+        { "previousCondition": "b" },
+        { "previousCondition": "c" }
+      ]
     }
-    
     ```
-
+  
 You should receive a response with status 201 (Created) and the user details.</br>
 
 Now, let's retrieve some data. Send a **GET** request to the user service: <br>
@@ -71,4 +71,6 @@ To build and push the service, follow these steps:
 1) run ```mvn clean install``` to build the project.
 2) Use the command ```docker build -t  yourusername/covid:0.0.1 .```, replacing ```yourusername```
    with your Docker Hub username.
-3) Finally, you can run the project using Docker Compose, as mentioned earlier.
+3) Push the container to Docker Hub using ```docker push -t yourusername/covid:0.0.1```,
+   This will make it available for Kubernetes to pull.
+4) Finally, you can run the project using Docker Compose, as mentioned earlier.

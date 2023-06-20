@@ -97,13 +97,13 @@ class UserServiceImplTest {
         User user1 = new User();
         User user2 = new User();
         List<User> users = Arrays.asList(user1, user2);
-        when(userRepository.findByBirthDateBetween(startDate, endDate)).thenReturn(users);
+        when(userRepository.findByDateOfBirthBetween(startDate, endDate)).thenReturn(users);
 
         // Act
         List<UserDTO> userDTOS = userService.getUsersBetweenDates(startDate, endDate);
 
         // Assert
-        verify(userRepository, times(1)).findByBirthDateBetween(startDate, endDate);
+        verify(userRepository, times(1)).findByDateOfBirthBetween(startDate, endDate);
         Assertions.assertEquals(2, userDTOS.size());
     }
 
@@ -111,16 +111,22 @@ class UserServiceImplTest {
     void getUsersByCity() {
         // Arrange
         String city = "New York";
-        User user1 = new User();
-        User user2 = new User();
+        User user1 = User.builder()
+                .city(city)
+                .build();
+
+        User user2 = User.builder()
+                .city(city)
+                .build();
+
         List<User> users = Arrays.asList(user1, user2);
-        when(userRepository.findUserByCity(city)).thenReturn(users);
+        when(userRepository.findByCityContainingIgnoreCase(city)).thenReturn(users);
 
         // Act
         List<UserDTO> userDTOS = userService.getUsersByCity(city);
 
         // Assert
-        verify(userRepository, times(1)).findUserByCity(city);
+        verify(userRepository, times(1)).findByCityContainingIgnoreCase(city);
         Assertions.assertEquals(2, userDTOS.size());
     }
 }
