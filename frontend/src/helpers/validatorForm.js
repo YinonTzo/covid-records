@@ -28,7 +28,7 @@ export const validatorForm = (() => {
 
     const isLandLineNumber = (str) => {
         return{
-            isValid: /^0[2-9]\d{7}$/.test(str),
+            isValid: /^(0|\+972)(\d{9}|\d{2}-\d{7}|\d{2}-\d{3}-\d{4}|\d{2}-\d{4}-\d{3})$/.test(str),
             message: 'Please enter a legal land line number'
         }
     }

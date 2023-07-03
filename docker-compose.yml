@@ -29,3 +29,11 @@ services:
       - covid-db-postgres
     networks:
       - covid_network
+
+  covid-front:
+    container_name: covid-front
+    image: davidmaman/covid-front:0.0.1
+    ports:
+      - '3000:3000'
+    links:
+      - covid-app

@@ -70,17 +70,17 @@ export const RegistrationPage = () => {
             setNewUser({
                 firstName: firstName.trim(),
                 lastName: lastName.trim(),
-                birthDate: birthDate,
+                dateOfBirth: birthDate,
                 address: address.trim(),
                 city: selectedCity?.label,
-                // zip_code: zip_code,
+                zipCode: zip_code,
                 landline: landline.trim(),
                 cellularPhone: cellularPhone.trim(),
                 infected: isInfectedBefore,
                 previousConditions: selectedPrevious.map(element => ({ previousCondition: element.value.trim()}))
             })
         }
-    }, [address, birthDate, cellularPhone, firstName, isInfectedBefore, landline, lastName, selectedCity.label, selectedPrevious]);
+    }, [address, birthDate, cellularPhone, firstName, isInfectedBefore, landline, lastName, selectedCity.label, selectedPrevious, zip_code]);
 
     useEffect(() => {
         updateUser();
@@ -143,7 +143,7 @@ export const RegistrationPage = () => {
         setErrorDate(v3.isValid ? '' : v3.message);
         setErrorAddress(v4.isValid ? '' : v4.message);
         setErrorCity(v5.isValid ? '' : v5.message);
-        // setErrorLandLine(v7.isValid ? '' : v7.message);
+        setErrorLandLine(v7.isValid ? '' : v7.message);
         setErrorCellular(v8.isValid ? '' : v8.message);
 
         const v9 = v1.isValid && v2.isValid && v3.isValid && v4.isValid && v5.isValid && v8.isValid;

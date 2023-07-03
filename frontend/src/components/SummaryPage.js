@@ -40,6 +40,14 @@ export const SummaryPage = () => {
         if(startDate !== '' && endDate !== '') handleGetDates(`user/betweenDates?startDate=${startDate}&endDate=${endDate}`);
         else if(selectedCity.label !== '') handleGetCity(`user/byCity/${selectedCity.label.trim()}`);
 
+        resetSearch()
+
+    }
+
+    const resetSearch = () => {
+        setStartDate('');
+        setEndDate('');
+        setSelectedCity({label: '', value: ''})
     }
 
     const exportToCSV = (csvData, fileName) => {
@@ -123,15 +131,15 @@ export const SummaryPage = () => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {data.map((row, index) => (
+                                    { data.map((row, index) => (
                                     <TableRow key={index}>
                                         <TableCell>{row.firstName}</TableCell>
                                         <TableCell>{row.lastName}</TableCell>
-                                        <TableCell>{row.birthDate}</TableCell>
+                                        <TableCell>{row.dateOfBirth}</TableCell>
                                         <TableCell>{row.address}</TableCell>
                                         <TableCell>{row.city}</TableCell>
-                                        <TableCell>{row?.zip}</TableCell>
-                                        <TableCell>{row.landLine}</TableCell>
+                                        <TableCell>{row.zipCode}</TableCell>
+                                        <TableCell>{row.landline}</TableCell>
                                         <TableCell>{row.cellularPhone}</TableCell>
                                         <TableCell>{row.infected ? 'Yes' : 'No'}</TableCell>
                                         <TableCell>{row.previousConditions.map(condition => condition.previousCondition).join(', ')}</TableCell>
