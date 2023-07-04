@@ -14,14 +14,12 @@ export const SummaryPage = () => {
     const [city, setCity] = useState('');
 
     const [ data, setData ] = useState([]);
-    const [ selectedCity, setSelectedCity ] = useState(city);
+    const [ selectedCity, setSelectedCity ] = useState({label: '', value: ''});
     const [ optionsCity, setOptionsCity ] = useState(null);
 
-    const { response: responseDate, fetchData: handleGetDates } = useAxiosGet();
-    const { response: responseCity, fetchData: handleGetCity } = useAxiosGet();
+    const { response, search } = useAxiosGet('user');
 
-    const { isLoading: loadingDates, data: dataDates, error: errorDates } = responseDate;
-    const { isLoading: loadingCity, data: dataCity, error: errorCity } = responseCity;
+    const { isLoading: isLoadingGet, data: dataGet, error: errorGet } = response;
 
     const refCities = useRef(true);
     const { isLoading, data: dataCities, error } = useFetch({
@@ -37,12 +35,15 @@ export const SummaryPage = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if(startDate !== '' && endDate !== '') handleGetDates(`user/betweenDates?startDate=${startDate}&endDate=${endDate}`);
-        else if(selectedCity.label !== '') handleGetCity(`user/byCity/${selectedCity.label.trim()}`);
+        if(startDate !== '' && endDate !== '') searchByDate(startDate, endDate);
+        else if(city !== '') searchByCity(city);
 
         resetSearch()
-
     }
+
+    useEffect(() => {
+        if(selectedCity.label !== '') setCity(selectedCity.label.trim());
+    }, [selectedCity.label]);
 
     const resetSearch = () => {
         setStartDate('');
@@ -67,15 +68,18 @@ export const SummaryPage = () => {
         const data = new Blob([excelBuffer], {type: fileType});
         FileSaver.saveAs(data, fileName + fileExtension);
     }
+
+    const searchByDate = (startDate, endDate) => {
+        search(`user/betweenDates?startDate=${startDate}&endDate=${endDate}`);
+    };
     
+    const searchByCity = (city) => {
+        search(`user/byCity/${city}`);
+    };
 
     useEffect(() => {
-        if(!loadingDates) setData(dataDates);
-    }, [dataDates, loadingDates]);
-
-    useEffect(() => {
-        if(!loadingCity) setData(dataCity);
-    }, [dataCity, loadingCity]);
+        if(!isLoadingGet) setData(dataGet)
+    }, [dataGet, isLoadingGet]);
 
     return (
         <>
@@ -114,7 +118,8 @@ export const SummaryPage = () => {
                 </form>
                 <div className='row p-3'>
                     <div className='container'>
-                        <TableContainer component={Paper}>
+                        <Paper sx={{ width: "100%", overflow: "hidden" }}>
+                        <TableContainer sx={{ maxHeight: 440 }}>
                             <Table>
                                 <TableHead>
                                     <TableRow>
@@ -148,6 +153,7 @@ export const SummaryPage = () => {
                                 </TableBody>
                             </Table>
                         </TableContainer>
+                        </Paper>
                         {
                             data.length > 0 && (
                                 <div className='row'>

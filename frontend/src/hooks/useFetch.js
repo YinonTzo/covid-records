@@ -10,16 +10,18 @@ const status = (response) => {
         return Promise.reject(response);
 }
 
-export const useAxiosGet = () => {
+export const useAxiosGet = (initialUrl) => {
 
+    const [url, setUrl] = useState(initialUrl)
     const [ response, setResponse ] = useState({
         isLoading: true,
         data: null,
         error: null
     });
 
-    const fetchData = async(url) => {
-        await service.get(url)
+    useEffect(() => {
+        const fetchData = async() => {
+            await service.get(url)
                         .then(status)
                         .then(res => {
                             setResponse({
@@ -35,9 +37,16 @@ export const useAxiosGet = () => {
                                 error: err
                             })
                         })
+        };
+
+        fetchData();
+    }, [url]);
+
+    const search = (url) => {
+        setUrl(url);
     }
 
-    return { response, fetchData };
+    return { response, search };
 }
 
 export const useAxiosPost = (data) => {
