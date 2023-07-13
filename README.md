@@ -8,8 +8,8 @@ people who have contracted the corona virus.
 2. Frontend: React js
 
 ## Prerequisites:
-1. Docker
-   Or
+1. Docker </br>
+*Or*
 1. Java 17
 2. npm
 3. Node.js 17 
